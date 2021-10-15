@@ -1,3 +1,32 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #b0abab;
+}
+
+h1 {
+   color: white;
+   background-color: #39b54a;
+   text-align: center;
+   margin: 0;
+   padding-bottom: 20px;
+   padding-top: 20px;
+}
+
+h3 {
+  padding-left: 16px;
+  
+}
+
+h4 {
+    color: #111;
+    padding: 16px;
+}
+
+h2 {
+  padding-left: 16px
+}
+
 .navigation {
     list-style-type: none;
     margin: 0;
@@ -24,45 +53,75 @@
 }
 
 .active {
-    background-color: #4CAF50;
+    background-color: #39b54a;
 }
 
 /* Боковое навигационное меню */
 .sidebar {
+  
   margin: 0;
   padding: 0;
-  width: 200px;
-  background-color: #f1f1f1;
-  position: fixed;
+  width: 10%;
+  color: white;
+  background-color: #b0abab;
+  position: relative;
+  float: left;
   height: 100%;
   overflow: auto;
 }
 
+.sidebar ul {
+    list-style-type: none;
+    text-align: center;
+}
+
 /* Сайдбар ссылки */
-.sidebar a {
+.active-list-item a {
   display: block;
-  color: black;
-  padding: 16px;
+  color: #111;
+  padding-bottom: 16px;
+  padding-top: 16px;
   text-decoration: none;
 }
 
 /* Активная/текущая ссылка */
-.sidebar a.active {
-  background-color: #4CAF50;
-  color: white;
+.active-list-item {
+    background-color: #b0abab;
+    width: 100%;
 }
 
 /* Ссылки при наведении мыши */
 .sidebar a:hover:not(.active) {
-  background-color: #555;
+  background-color: #111;
   color: white;
 }
 
 /* Содержание страницы. Значение свойства margin-left должно соответствовать значению свойства width боковой панели */
-div.content {
-  margin-left: 200px;
-  padding: 1px 16px;
-  height: 1000px;
+main {
+  width: 90%;
+  height: 100%;
+  float: right;
+  background-color: #c9c9c9;
+  color: #111;
+}
+
+.topics {
+    list-style-type: none;
+    padding-left: 16px;
+}
+
+.topic-list-item a {
+  display: block;
+  color: #111;
+  padding-bottom: 16px;
+  padding-top: 16px;
+  padding-left: 16px;
+  text-decoration: none;
+}
+
+.topic-list-item a:hover:not(.active) {
+  background-color: #111;
+  color: white;
 }
 
 footer a {
@@ -74,11 +133,9 @@ footer a {
 }
 
 footer {
+    color: white;
     text-align: center;
-    position: fixed; /* Фиксированное положение */
-    left: 0; bottom: 0; /* Левый нижний угол */
-    color: #fff; /* Цвет текста */
-    width: 100%; /* Ширина слоя */
+    background-color: #b0abab;
 }
 
 .footer-item {
@@ -87,14 +144,15 @@ footer {
 
 .footer-item a {
     display: block;
-    color: white;
+    color: #111;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
 }
 
 .footer-item a:hover {
-   background-color: #111; 
+   background-color: #111;
+   color: white; 
 }
 
 .footer-item-list {
@@ -105,8 +163,6 @@ footer {
     overflow: hidden;
 }
 
-footer div {
-    text-align: center;
-    padding: 10px; /* Поля вокруг текста */
-    background: #39b54a; /* Цвет фона */
+footer p {
+   color: #111;
 }
