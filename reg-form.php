@@ -1,3 +1,7 @@
+<?php
+	require_once "functions/reg-function.php";
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,7 +23,7 @@
 			<a href="#">Книга жалоб и предложений</a>
 		</li>
 		<li class="nav-item" style="float:right">
-			<a class="active" href="reg-form.php">Реистрация</a>
+			<a class="active" href="#about">Реистрация</a>
 		</li>
 		<li class="nav-item" class="active" style="float:right">
 			<a class="active" href="#about">Войти</a>
@@ -43,24 +47,12 @@
 	<main>
 		
 		<div class="content">
-			<h2>Главная страница форума, добро пожаловать!</h2>
-			<div> 
-				<h3>Тут расположены популярные разделы сайта.</h3>
-				<ul class="topics">
-					<li class="topic-list-item">
-						<a href="#">Раздел 1</a>
-						<p>Описание</p>
-					</li>
-					<li class="topic-list-item">
-						<a href="#">Раздел 2</a>
-						<p>Описание</p>
-					</li>
-					<li class="topic-list-item">
-						<a href="#">Раздел 3</a>
-						<p>Описание</p>
-					</li>
-				</ul>
-			</div>
+			<form method="POST" action="reg-form.php">
+				<h2>Регистрация</h2>
+				<input type="text" name="login"> <br />
+				<input type="password" name="pass"> <br />
+				<input type="submit" name="reg_user" value="Зарегистрироваться"> <br />
+			</form>
 		</div>
 	</main>
 	
