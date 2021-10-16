@@ -1,3 +1,7 @@
+<?php
+	require_once "functions/login_function.php";
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,7 +26,7 @@
 			<a class="active" href="reg_form.php">Реистрация</a>
 		</li>
 		<li class="nav-item" class="active" style="float:right">
-			<a class="active" href="login.php">Войти</a>
+			<a class="active" href="#">Войти</a>
 		</li>
 	</ul>
 	</nav>
@@ -43,24 +47,12 @@
 	<main>
 		
 		<div class="content">
-			<h2>Главная страница форума, добро пожаловать!</h2>
-			<div> 
-				<h3>Тут расположены популярные разделы сайта.</h3>
-				<ul class="topics">
-					<li class="topic-list-item">
-						<a href="#">Раздел 1</a>
-						<p>Описание</p>
-					</li>
-					<li class="topic-list-item">
-						<a href="#">Раздел 2</a>
-						<p>Описание</p>
-					</li>
-					<li class="topic-list-item">
-						<a href="#">Раздел 3</a>
-						<p>Описание</p>
-					</li>
-				</ul>
-			</div>
+			<form method="POST" action="login.php">
+				<h2>Авторизация</h2>
+				<input type="text" name="login"> <br />
+				<input type="password" name="password"> <br />
+				<input type="submit" name="login_user" value="Войти"> <br />
+			</form>
 		</div>
 	</main>
 	

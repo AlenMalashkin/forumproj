@@ -1,5 +1,5 @@
 <?php
-	require_once "functions/reg-function.php";
+	require_once "functions/reg_function.php";
 ?>
 
 <!DOCTYPE html>
@@ -23,10 +23,10 @@
 			<a href="#">Книга жалоб и предложений</a>
 		</li>
 		<li class="nav-item" style="float:right">
-			<a class="active" href="#about">Реистрация</a>
+			<a class="active" href="reg_form.php">Реистрация</a>
 		</li>
 		<li class="nav-item" class="active" style="float:right">
-			<a class="active" href="#about">Войти</a>
+			<a class="active" href="login.php">Войти</a>
 		</li>
 	</ul>
 	</nav>
@@ -47,10 +47,11 @@
 	<main>
 		
 		<div class="content">
-			<form method="POST" action="reg-form.php">
+			<form method="POST" action="reg_form.php">
 				<h2>Регистрация</h2>
 				<input type="text" name="login"> <br />
-				<input type="password" name="pass"> <br />
+				<input type="password" name="password"> <br />
+				<input type="password" name="password_2"> <br />
 				<input type="submit" name="reg_user" value="Зарегистрироваться"> <br />
 			</form>
 		</div>
