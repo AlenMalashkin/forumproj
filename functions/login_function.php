@@ -1,8 +1,5 @@
 <?php
-	require "libs/rb.php";
-
-	R::setup( 'mysql:host=localhost;dbname=forum_users',
-        'root', '' );
+	require "libs/db.php";
 
 	$errors = [];
 
@@ -13,6 +10,7 @@
 		{
 			if (password_verify($_POST['password'], $user->password))
 			{
+				$_SESSION['logged_user'] = $user;
 				header('Location: index.php');
 			} else
 			{

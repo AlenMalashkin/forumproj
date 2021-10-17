@@ -1,3 +1,7 @@
+<?php 
+	require "functions/libs/db.php";
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,12 +22,31 @@
 		<li class="nav-item">
 			<a href="#">Книга жалоб и предложений</a>
 		</li>
-		<li class="nav-item" style="float:right">
-			<a class="active" href="reg_form.php">Реистрация</a>
-		</li>
-		<li class="nav-item" class="active" style="float:right">
-			<a class="active" href="login.php">Войти</a>
-		</li>
+		
+		<?php if (isset($_SESSION['logged_user']))
+		{?>
+			<li class="nav-item" style="float:right">
+				<a class="active" href="reg_form.php">Реистрация</a>
+			</li>
+			<li class="nav-item" class="active" style="float:right">
+				<a class="active" href="login.php">Войти</a>
+			</li>
+			<li class="nav-item" class="active" style="float:right">
+				<a class="active" href="profile.php">Профиль</a>
+			</li>
+
+			<li class="nav-item" class="active" style="float:right">
+				<a class="active" href="functions/logout.php">Выйти</a>
+			</li>
+		<?php } else {?>
+			<li class="nav-item" style="float:right">
+				<a class="active" href="reg_form.php">Реистрация</a>
+			</li>
+			<li class="nav-item" class="active" style="float:right">
+				<a class="active" href="login.php">Войти</a>
+			</li>
+		<?php } ?>
+
 	</ul>
 	</nav>
 		<div class="sidebar">
