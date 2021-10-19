@@ -1,5 +1,6 @@
 <?php
 	require "functions/libs/db.php";
+	$user = $_SESSION['logged_user'];
 ?>
 
 
@@ -67,27 +68,46 @@
 	<main>
 		
 		<div class="content">
-			<h2>Профиль пользователя <?=$_SESSION['logged_user']->login;?></h2>
+			<h2>Профиль пользователя <?=$user->login?></h2>
 			<div>
 				<p>Поставьте ваш статаус:</p>
+				<p><?=$user->status?></p>
 				<?php
-					$status = '';
-					if ($status == '' && isset($_GET['set_status']))
+					if ($user->status == '')
 					{
-						$status = $_GET['status'];
-						$_SESSION['save_status'] = $_GET['status'];
-						
-					}
+					
 				?>
-				<form method="GET" action="profile.php">
-				<p><?=$_SESSION['save_status']?></p>
+
+				<form method="POST" action="profile.php">
+				
 					<textarea name="status">
 						
 					</textarea>
 					<br />
 					<input type="submit" name="set_status" value="Поставить">
 				</form>
-
+				<?php
+						if (isset($_POST['set_status']))
+						{
+							$user->status = $_POST['status'];
+							R::store($user);
+							echo("<meta http-equiv='refresh' content='1'>");
+						}
+					} else
+					{
+				?>
+				<form method="POST" action="profile.php">
+					<input type="submit" name="update_status" value="Обновить"> <br />
+					<?php
+						if (isset($_POST['update_status']))
+						{
+							$user->status = '';
+							R::store($user);
+							echo("<meta http-equiv='refresh' content='1'>");
+						}
+					}
+					?>
+				</form>
 				<h3>Коментарии пользователя</h3>
 				<ul class="comments">
 					<li class="user-comment">

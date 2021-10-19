@@ -58,7 +58,6 @@ h2 {
 
 /* Боковое навигационное меню */
 .sidebar {
-  
   margin: 0;
   padding: 0;
   width: 10%;
@@ -163,6 +162,27 @@ footer {
     overflow: hidden;
 }
 
+
+
 footer p {
    color: #111;
+}
+
+.comments {
+    list-style-type: none;
+    padding-left: 16px;
+}
+
+.user-comment a {
+  display: block;
+  color: #111;
+  padding-bottom: 16px;
+  padding-top: 16px;
+  padding-left: 16px;
+  text-decoration: none;
+}
+
+.user-comment a:hover:not(.active) {
+  background-color: #111;
+  color: white;
 }
