@@ -1,8 +1,6 @@
-<?php 
+<?php
 	require "functions/libs/db.php";
-	$themes = R::getAll( 'SELECT * FROM themes LIMIT 5' );
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -66,27 +64,23 @@
 		</div>
 	<main>
 		
-		<div class="content">
-			<h2>Главная страница форума, добро пожаловать!</h2>
-			<div>
-				<a href="/theme_creator.php">Создать тему</a>
-				<h3>Тут расположены популярные разделы сайта.</h3>
-				<ul class="topics">
-				<?php
-				foreach ($themes as $theme)
-				{
-					$user = R::load('users', $theme['creator_id']);
-				?>
-					<li class="topic-list-item">
-						<a href="/theme?id=<?=$theme['id']?>"><strong><?=$theme['title']?></strong></a>
-						<p><?=$theme['text']?></p>
-						<a href="/profile?id=<?=$user->id?>"><?=$user->login?></a>
+		<div>
+			<h2>Жалобная книга</h2>
+			<p>Тут вы можете написать нам жалобу или своё предложение, как можно развить проект.</p>
+			<form>
+				<textarea>
+					
+				</textarea>
+				<br />
+				<input type="submit" name="report" value="Отправить жалобу">
+				<ul class='report'>
+					<li class="report-item">
+						<h3>Title</h3>
+						<p>Paragraph</p>
+						<a href="#">User</a>
 					</li>
-				<?php
-				}
-				?>
 				</ul>
-			</div>
+			</form>
 		</div>
 	</main>
 	

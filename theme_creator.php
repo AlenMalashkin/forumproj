@@ -1,8 +1,16 @@
-<?php 
-	require "functions/libs/db.php";
-	$themes = R::getAll( 'SELECT * FROM themes LIMIT 5' );
+<?php
+	require 'functions/libs/db.php';
+	if (isset($_POST['theme_create']))
+	{
+		$theme = R::dispense('themes');
+		$theme->title = $_POST['theme_title'];
+		$theme->text = $_POST['theme_text'];
+		$theme->creator = $_SESSION['logged_user'];
+		R::store($theme);
+		header('Location: index.php');
+	}
+	
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,22 +26,22 @@
 			<a  href="/index.php">Форум</a>
 		</li>
 		<li class="nav-item">
-			<a href="/articles.php">Статьи</a>
+			<a href="#">Статьи</a>
 		</li>
 		<li class="nav-item">
-			<a href="/reportbook.php">Книга жалоб и предложений</a>
+			<a href="#">Книга жалоб и предложений</a>
 		</li>
 		
 		<?php if (isset($_SESSION['logged_user']))
 		{?>
 			<li class="nav-item" style="float:right">
-				<a class="active" href="/reg_form.php">Реистрация</a>
+				<a class="active" href="reg_form.php">Реистрация</a>
 			</li>
 			<li class="nav-item" class="active" style="float:right">
-				<a class="active" href="/login.php">Войти</a>
+				<a class="active" href="login.php">Войти</a>
 			</li>
 			<li class="nav-item" class="active" style="float:right">
-				<a class="active" href="/profile.php">Профиль</a>
+				<a class="active" href="profile.php">Профиль</a>
 			</li>
 
 			<li class="nav-item" class="active" style="float:right">
@@ -54,39 +62,29 @@
 			<h4>Новости нашего сайта</h4>
 			<ul>
 				<li class="active-list-item">
-					<a href="/articles">Статья 1</a>
+					<a href="#">Статья 1</a>
 				</li>
 				<li class="active-list-item">
-					<a href="/articles">Статья 2</a>
+					<a href="#">Статья 2</a>
 				</li>
 				<li class="active-list-item">
-					<a href="/articles">Статья 3</a>
+					<a href="#">Статья 3</a>
 				</li>
 			</ul>
 		</div>
 	<main>
 		
 		<div class="content">
-			<h2>Главная страница форума, добро пожаловать!</h2>
-			<div>
-				<a href="/theme_creator.php">Создать тему</a>
-				<h3>Тут расположены популярные разделы сайта.</h3>
-				<ul class="topics">
-				<?php
-				foreach ($themes as $theme)
-				{
-					$user = R::load('users', $theme['creator_id']);
-				?>
-					<li class="topic-list-item">
-						<a href="/theme?id=<?=$theme['id']?>"><strong><?=$theme['title']?></strong></a>
-						<p><?=$theme['text']?></p>
-						<a href="/profile?id=<?=$user->id?>"><?=$user->login?></a>
-					</li>
-				<?php
-				}
-				?>
-				</ul>
-			</div>
+			<h2>Создайте тему для форума.</h2>
+			<form method="POST" action="theme_creator.php">
+				<p>Введите название темы</p>
+				<input type="text" name="theme_title">
+				<p>Введите основной текст темы</p>
+				<textarea name="theme_text">
+					
+				</textarea> <br />
+				<input value="Создать тему" type="submit" name="theme_create">
+			</form>
 		</div>
 	</main>
 	

@@ -1,6 +1,7 @@
 <?php
 	require "functions/libs/db.php";
-	$user = $_SESSION['logged_user'];
+	$uid = $_SESSION['logged_user'];
+	$user = R::findOne('users', 'login = ?', [$uid->login]);
 ?>
 
 
@@ -111,7 +112,7 @@
 				<h3>Коментарии пользователя</h3>
 				<ul class="comments">
 					<li class="user-comment">
-						<a href="#">Пользователь 1</a>
+						<a href="<?=$uri?>">Пользователь 1</a>
 						<p>Коментарий</p>
 					</li>
 					<li class="user-comment">
