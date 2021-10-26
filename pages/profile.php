@@ -1,7 +1,6 @@
 <?php
-	require "functions/libs/db.php";
-	$uid = $_SESSION['logged_user'];
-	$user = R::findOne('users', 'login = ?', [$uid->login]);
+	$pid = $_GET['id'];
+	$profile = R::findOne('users', 'id = ?', [$pid]);
 ?>
 
 
@@ -17,36 +16,36 @@
 	<nav>
 	<ul class="navigation">
 		<li class="nav-item">
-			<a  href="/index.php">Форум</a>
+			<a  href="/">Форум</a>
 		</li>
 		<li class="nav-item">
-			<a href="#">Статьи</a>
+			<a href="/articles">Статьи</a>
 		</li>
 		<li class="nav-item">
-			<a href="#">Книга жалоб и предложений</a>
+			<a href="/reportbook">Книга жалоб и предложений</a>
 		</li>
 		
 		<?php if (isset($_SESSION['logged_user']))
 		{?>
 			<li class="nav-item" style="float:right">
-				<a class="active" href="reg_form.php">Реистрация</a>
+				<a class="active" href="/register">Реистрация</a>
 			</li>
 			<li class="nav-item" class="active" style="float:right">
-				<a class="active" href="login.php">Войти</a>
+				<a class="active" href="/login">Войти</a>
 			</li>
 			<li class="nav-item" class="active" style="float:right">
-				<a class="active" href="profile.php">Профиль</a>
+				<a class="active" href="/profile?id=<?=$user->id?>">Профиль</a>
 			</li>
 
 			<li class="nav-item" class="active" style="float:right">
-				<a class="active" href="functions/logout.php">Выйти</a>
+				<a class="active" href="/logout">Выйти</a>
 			</li>
 		<?php } else {?>
 			<li class="nav-item" style="float:right">
-				<a class="active" href="reg_form.php">Реистрация</a>
+				<a class="active" href="/register">Реистрация</a>
 			</li>
 			<li class="nav-item" class="active" style="float:right">
-				<a class="active" href="login.php">Войти</a>
+				<a class="active" href="/login">Войти</a>
 			</li>
 		<?php } ?>
 
@@ -55,60 +54,58 @@
 		<div class="sidebar">
 			<h4>Статьи от пользователей нашего сайта</h4>
 			<ul>
-				<li class="active-list-item">
-					<a href="#">Статья 1</a>
-				</li>
-				<li class="active-list-item">
-					<a href="#">Статья 2</a>
-				</li>
-				<li class="active-list-item">
-					<a href="#">Статья 3</a>
-				</li>
+				<?php
+				sidebar_news();
+				?>
 			</ul>
 		</div>
 	<main>
 		
 		<div class="content">
-			<h2>Профиль пользователя <?=$user->login?></h2>
+			<h2>Профиль пользователя <?=$profile->login?></h2>
 			<div>
 				<p>Поставьте ваш статаус:</p>
-				<p><?=$user->status?></p>
+				<p><?=$profile->status?></p>
 				<?php
 					if ($user->status == '')
 					{
 					
 				?>
-
-				<form method="POST" action="profile.php">
-				
-					<textarea name="status">
+						<form method="POST" action="/profile?id=<?=$_SESSION['logged_user']->id?>">
 						
-					</textarea>
-					<br />
-					<input type="submit" name="set_status" value="Поставить">
-				</form>
+							<textarea name="status">
+								
+							</textarea>
+							<br />
+							<input type="submit" name="set_status" value="Поставить">
+						</form>
 				<?php
-						if (isset($_POST['set_status']))
+					} 
+						if (isset($_POST['set_status'])) 
 						{
 							$user->status = $_POST['status'];
 							R::store($user);
 							echo("<meta http-equiv='refresh' content='1'>");
 						}
-					} else
+				?>		
+				<?php
+					if (empty(!$user->status) && $_GET['id'] == $_SESSION['logged_user']->id)
 					{
 				?>
-				<form method="POST" action="profile.php">
-					<input type="submit" name="update_status" value="Обновить"> <br />
-					<?php
-						if (isset($_POST['update_status']))
-						{
-							$user->status = '';
-							R::store($user);
-							echo("<meta http-equiv='refresh' content='1'>");
-						}
+					<form method="POST" action="/profile?id=<?=$_SESSION['logged_user']->id?>">
+							<input type="submit" name="update_status" value="Обновить"> <br />
+					</form>					
+				<?php
 					}
-					?>
-				</form>
+					if(isset($_POST['update_status']))
+					{
+						$user->status = '';
+						R::store($user);
+						echo("<meta http-equiv='refresh' content='1'>");
+					}
+					
+				?>
+
 				<h3>Коментарии пользователя</h3>
 				<ul class="comments">
 					<li class="user-comment">

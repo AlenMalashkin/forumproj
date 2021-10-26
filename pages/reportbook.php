@@ -1,11 +1,20 @@
 <?php
-	require "functions/libs/db.php";
+	if (isset($_POST['report_send']))
+	{
+		$reports = R::dispense('reportbook');
+		$reports->report = $_POST['report_text'];
+		$reports->user = $_SESSION['logged_user'];
+		R::store($reports);
+		echo("<meta http-equiv='refresh'>");
+	}
+	
+	$report_query = R::getAll('SELECT * FROM reportbook');
 ?>
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="utf-8">
-	<link rel="stylesheet" href="style.css">
+	<link href="style.css" rel="stylesheet" type="text/css"/>
 	<title>Основная страница сайта</title>
 </head>
 <body>
@@ -13,36 +22,36 @@
 	<nav>
 	<ul class="navigation">
 		<li class="nav-item">
-			<a  href="/index.php">Форум</a>
+			<a  href="/">Форум</a>
 		</li>
 		<li class="nav-item">
-			<a href="/articles.php">Статьи</a>
+			<a href="/news">Статьи</a>
 		</li>
 		<li class="nav-item">
-			<a href="/reportbook.php">Книга жалоб и предложений</a>
+			<a href="/reportbook">Книга жалоб и предложений</a>
 		</li>
 		
 		<?php if (isset($_SESSION['logged_user']))
 		{?>
 			<li class="nav-item" style="float:right">
-				<a class="active" href="/reg_form.php">Реистрация</a>
+				<a class="active" href="/register">Реистрация</a>
 			</li>
 			<li class="nav-item" class="active" style="float:right">
-				<a class="active" href="/login.php">Войти</a>
+				<a class="active" href="/login">Войти</a>
 			</li>
 			<li class="nav-item" class="active" style="float:right">
-				<a class="active" href="/profile.php">Профиль</a>
+				<a class="active" href="/profile?id=<?=$user->id?>">Профиль</a>
 			</li>
 
 			<li class="nav-item" class="active" style="float:right">
-				<a class="active" href="functions/logout.php">Выйти</a>
+				<a class="active" href="/logout">Выйти</a>
 			</li>
 		<?php } else {?>
 			<li class="nav-item" style="float:right">
-				<a class="active" href="reg_form.php">Реистрация</a>
+				<a class="active" href="/register">Реистрация</a>
 			</li>
 			<li class="nav-item" class="active" style="float:right">
-				<a class="active" href="login.php">Войти</a>
+				<a class="active" href="/login">Войти</a>
 			</li>
 		<?php } ?>
 
@@ -51,39 +60,39 @@
 		<div class="sidebar">
 			<h4>Новости нашего сайта</h4>
 			<ul>
-				<li class="active-list-item">
-					<a href="/articles">Статья 1</a>
-				</li>
-				<li class="active-list-item">
-					<a href="/articles">Статья 2</a>
-				</li>
-				<li class="active-list-item">
-					<a href="/articles">Статья 3</a>
-				</li>
+				<?php
+				sidebar_news();
+				?>
 			</ul>
 		</div>
-	<main>
-		
-		<div>
+
+		<main>
 			<h2>Жалобная книга</h2>
 			<p>Тут вы можете написать нам жалобу или своё предложение, как можно развить проект.</p>
-			<form>
-				<textarea>
+			<form method="POST" action="/reportbook">
+				<p>Введите вашу жаобу или предложение:</p>
+				<textarea name="report_text">
 					
 				</textarea>
 				<br />
-				<input type="submit" name="report" value="Отправить жалобу">
-				<ul class='report'>
+				<input type="submit" name="report_send" value="Отправить жалобу">
+			<?php 
+			foreach ($report_query as $report_view)
+			{
+				$user = R::load('users', $report_view['user_id']);
+			?>
+				<ul class="report">
 					<li class="report-item">
-						<h3>Title</h3>
-						<p>Paragraph</p>
-						<a href="#">User</a>
+						<a href="/profile.php?id=<?=$user->id?>"><?=$user->login?></a>
+						<p><?=$report_view['report']?></p>	
 					</li>
 				</ul>
+			<?php 
+			}
+			?>
 			</form>
-		</div>
-	</main>
-	
+		</main>
+
 		<footer>
 			<ul class="footer-item-list">
 				<li class="footer-item">

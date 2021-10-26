@@ -1,6 +1,4 @@
 <?php
-	require "libs/db.php";
-
 	$errors = [];
 
 	if (isset($_POST['reg_user']))
@@ -33,7 +31,7 @@
 			$user->login = $_POST['login'];
 			$user->password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 			R::store($user);
-			header('Location: index.php');
+			header('Location: /');
 		} else
 		{
 			echo array_shift($errors);

@@ -1,7 +1,5 @@
 <?php
-	require "libs/db.php";
-
 	$_SESSION = [];
 	session_destroy();
-	header('Location: ../index.php');
+	echo "Вы успешно вышли из аккаунта, вернуться на <a href='/'>главную</a> страницу";
 ?>

@@ -1,5 +1,4 @@
 <?php
-	require 'functions/libs/db.php';
 	if (isset($_POST['theme_create']))
 	{
 		$theme = R::dispense('themes');
@@ -7,7 +6,7 @@
 		$theme->text = $_POST['theme_text'];
 		$theme->creator = $_SESSION['logged_user'];
 		R::store($theme);
-		header('Location: index.php');
+		echo "Тема успешно создана, перейдите на <a href='/'>главную</a> страницу.";
 	}
 	
 ?>
@@ -23,36 +22,36 @@
 	<nav>
 	<ul class="navigation">
 		<li class="nav-item">
-			<a  href="/index.php">Форум</a>
+			<a  href="/">Форум</a>
 		</li>
 		<li class="nav-item">
-			<a href="#">Статьи</a>
+			<a href="/articles">Статьи</a>
 		</li>
 		<li class="nav-item">
-			<a href="#">Книга жалоб и предложений</a>
+			<a href="/reportbook">Книга жалоб и предложений</a>
 		</li>
 		
 		<?php if (isset($_SESSION['logged_user']))
 		{?>
 			<li class="nav-item" style="float:right">
-				<a class="active" href="reg_form.php">Реистрация</a>
+				<a class="active" href="/register">Реистрация</a>
 			</li>
 			<li class="nav-item" class="active" style="float:right">
-				<a class="active" href="login.php">Войти</a>
+				<a class="active" href="/login">Войти</a>
 			</li>
 			<li class="nav-item" class="active" style="float:right">
-				<a class="active" href="profile.php">Профиль</a>
+				<a class="active" href="/profile?id=<?=$user->id?>">Профиль</a>
 			</li>
 
 			<li class="nav-item" class="active" style="float:right">
-				<a class="active" href="functions/logout.php">Выйти</a>
+				<a class="active" href="/logout">Выйти</a>
 			</li>
 		<?php } else {?>
 			<li class="nav-item" style="float:right">
-				<a class="active" href="reg_form.php">Реистрация</a>
+				<a class="active" href="/register">Реистрация</a>
 			</li>
 			<li class="nav-item" class="active" style="float:right">
-				<a class="active" href="login.php">Войти</a>
+				<a class="active" href="/login">Войти</a>
 			</li>
 		<?php } ?>
 
@@ -61,22 +60,16 @@
 		<div class="sidebar">
 			<h4>Новости нашего сайта</h4>
 			<ul>
-				<li class="active-list-item">
-					<a href="#">Статья 1</a>
-				</li>
-				<li class="active-list-item">
-					<a href="#">Статья 2</a>
-				</li>
-				<li class="active-list-item">
-					<a href="#">Статья 3</a>
-				</li>
+				<?php
+				sidebar_news();
+				?>
 			</ul>
 		</div>
 	<main>
 		
 		<div class="content">
 			<h2>Создайте тему для форума.</h2>
-			<form method="POST" action="theme_creator.php">
+			<form method="POST" action="/theme_create">
 				<p>Введите название темы</p>
 				<input type="text" name="theme_title">
 				<p>Введите основной текст темы</p>

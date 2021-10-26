@@ -1,5 +1,4 @@
 <?php
-	require "libs/db.php";
 
 	$errors = [];
 
@@ -11,7 +10,7 @@
 			if (password_verify($_POST['password'], $user->password))
 			{
 				$_SESSION['logged_user'] = $user;
-				header('Location: index.php');
+				header('Location: /');
 			} else
 			{
 				echo $errors[] = 'Пароль введён неверно';

@@ -1,5 +1,5 @@
 <?php
-	require_once "functions/login_function.php";
+
 ?>
 
 <!DOCTYPE html>
@@ -14,44 +14,39 @@
 	<nav>
 	<ul class="navigation">
 		<li class="nav-item">
-			<a  href="#">Форум</a>
+			<a  href="/">Форум</a>
 		</li>
 		<li class="nav-item">
-			<a href="#">Статьи</a>
+			<a href="/articles">Статьи</a>
 		</li>
 		<li class="nav-item">
-			<a href="#">Книга жалоб и предложений</a>
+			<a href="/reportbook">Книга жалоб и предложений</a>
 		</li>
 		<li class="nav-item" style="float:right">
-			<a class="active" href="reg_form.php">Реистрация</a>
+			<a class="active" href="/register">Реистрация</a>
 		</li>
 		<li class="nav-item" class="active" style="float:right">
-			<a class="active" href="#">Войти</a>
+			<a class="active" href="/login">Войти</a>
 		</li>
 	</ul>
 	</nav>
 		<div class="sidebar">
 			<h4>Статьи от пользователей нашего сайта</h4>
 			<ul>
-				<li class="active-list-item">
-					<a href="#">Статья 1</a>
-				</li>
-				<li class="active-list-item">
-					<a href="#">Статья 2</a>
-				</li>
-				<li class="active-list-item">
-					<a href="#">Статья 3</a>
-				</li>
+				<?php
+				sidebar_news();
+				?>
 			</ul>
 		</div>
 	<main>
 		
 		<div class="content">
-			<form method="POST" action="login.php">
-				<h2>Авторизация</h2>
+			<form method="POST" action="/register">
+				<h2>Регистрация</h2>
 				<input type="text" name="login"> <br />
 				<input type="password" name="password"> <br />
-				<input type="submit" name="login_user" value="Войти"> <br />
+				<input type="password" name="password_2"> <br />
+				<input type="submit" name="reg_user" value="Зарегистрироваться"> <br />
 			</form>
 		</div>
 	</main>
