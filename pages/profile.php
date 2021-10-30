@@ -1,8 +1,9 @@
 <?php
 	$pid = $_GET['id'];
 	$profile = R::findOne('users', 'id = ?', [$pid]);
+	$comment_form = R::dispense('comments');
+	$comments = R::getAll("SELECT * FROM comments WHERE module = 'profile'");
 ?>
-
 
 <!DOCTYPE html>
 <html>
@@ -19,7 +20,7 @@
 			<a  href="/">Форум</a>
 		</li>
 		<li class="nav-item">
-			<a href="/articles">Статьи</a>
+			<a href="/news">Новости сайта</a>
 		</li>
 		<li class="nav-item">
 			<a href="/reportbook">Книга жалоб и предложений</a>
@@ -64,12 +65,16 @@
 		<div class="content">
 			<h2>Профиль пользователя <?=$profile->login?></h2>
 			<div>
-				<p>Поставьте ваш статаус:</p>
-				<p><?=$profile->status?></p>
+				<?php
+				if ($_GET['id'] == $_SESSION['logged_user']->id)
+				{
+				?>
+					<p>Поставьте ваш статаус:</p>
+					<p><?=$profile->status?></p>
+				
 				<?php
 					if ($user->status == '')
-					{
-					
+					{	
 				?>
 						<form method="POST" action="/profile?id=<?=$_SESSION['logged_user']->id?>">
 						
@@ -89,7 +94,7 @@
 						}
 				?>		
 				<?php
-					if (empty(!$user->status) && $_GET['id'] == $_SESSION['logged_user']->id)
+					if (!empty($user->status) && $_GET['id'] == $_SESSION['logged_user']->id)
 					{
 				?>
 					<form method="POST" action="/profile?id=<?=$_SESSION['logged_user']->id?>">
@@ -102,24 +107,60 @@
 						$user->status = '';
 						R::store($user);
 						echo("<meta http-equiv='refresh' content='1'>");
-					}
-					
+					}	
+				} else
+				{
 				?>
+					<p>Статус пользователя:</p>
+					<p><?=$profile->status?></p>
+				<?php	
+				}
+				?>
+				<?php
+				if (isset($_SESSION['logged_user']))
+				{
+					if (isset($_POST['send_comment']))
+					{
+						$comment_form->text = $_POST['comment_text'];
+						$comment_form->module = 'profile';
+						$comment_form->params = $_GET['id'];
+						$comment_form->user = $_SESSION['logged_user'];
+						R::store($comment_form);
+						echo("<meta http-equiv='refresh' content='1'>");
+					}
 
+				?>
+					<hr>
+					<p>Здесь вы можете оставить коментарий для этого пользователя</p>
+					<form method="POST" action="/profile?id=<?=$profile->id?>">
+						<input type="text" name="comment_text"> <br />
+						<input type="submit" name="send_comment">
+					</form>
+				<?php
+				} else
+				{
+				?>
+				<p>Чтобы оставлять комментарии необходимо <a href="/login">авторизироваться</a> на сайте</p>
+				<?php
+				}
+				?>
 				<h3>Коментарии пользователя</h3>
 				<ul class="comments">
-					<li class="user-comment">
-						<a href="<?=$uri?>">Пользователь 1</a>
-						<p>Коментарий</p>
-					</li>
-					<li class="user-comment">
-						<a href="#">Пользователь 2</a>
-						<p>Коментарий</p>
-					</li>
-					<li class="user-comment">
-						<a href="#">Пользователь 3</a>
-						<p>Коментарий</p>
-					</li>
+					<?php
+					foreach ($comments as $comment)
+					{
+						if ($comment['params'] == $_GET['id'])
+						{
+							$commentator = R::findOne('users', 'id = ?', [$comment['user_id']]);
+					?>
+						<li class="user-comment">
+							<a href="profile?id=<?=$commentator->id?>"><?=$commentator->login?></a>
+							<p><?=$comment['text']?></p>
+						</li>
+					<?php
+						}
+					}
+					?>
 				</ul>
 			</div>
 		</div>

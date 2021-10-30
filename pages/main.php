@@ -1,12 +1,12 @@
 <?php
-	$themes = R::getAll( 'SELECT * FROM themes LIMIT 5' );
+	$themes = R::getAll( 'SELECT * FROM themes ORDER BY id DESC' );
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="utf-8">
-	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" type="text/css" href="../style.css">
 	<title>Основная страница сайта</title>
 </head>
 <body>
@@ -14,7 +14,7 @@
 	<nav>
 	<ul class="navigation">
 		<li class="nav-item">
-			<a  href="/">Форум</a>
+			<a href="/">Форум</a>
 		</li>
 		<li class="nav-item">
 			<a href="/news">Новости сайта</a>
@@ -50,7 +50,7 @@
 	</ul>
 	</nav>
 		<div class="sidebar">
-			<h4>Новости нашего сайта</h4>
+			<h3>Новости нашего сайта</h3>
 			<ul>
 				<?
 				sidebar_news();
@@ -62,13 +62,12 @@
 		<div class="content">
 			<h2>Главная страница форума, добро пожаловать!</h2>
 			<div>
-				<a href="/theme_create">Создать тему</a>
-				<br />
+				<a class="link" href="/theme_create">Создать тему</a>
 				<?php
 				if ($_SESSION['logged_user']->id == 2)
 				{
 				?>
-				<a href="/admin/add_state">Администрация сайта</a>
+				<a class="link" href="/admin/add_state">Администрация сайта</a>
 				<?php
 				}
 				?>
@@ -79,8 +78,9 @@
 				{
 					$user = R::load('users', $theme['creator_id']);
 				?>
+					<hr>
 					<li class="topic-list-item">
-						<a href="/theme?id=<?=$theme['id']?>"><strong><?=$theme['title']?></strong></a>
+						<a class="theme-link" href="/theme?id=<?=$theme['id']?>"><strong><?=$theme['title']?></strong></a>
 						<p><?=$theme['text']?></p>
 						<a href="/profile?id=<?=$user->id?>"><?=$user->login?></a>
 					</li>

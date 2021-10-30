@@ -2,8 +2,7 @@
 	if (isset($_POST['report_send']))
 	{
 		$reports = R::dispense('reportbook');
-		$reports->report = $_POST['report_text'];
-		$reports->user = $_SESSION['logged_user'];
+		$reports->report = $_POST['report_text'];	
 		R::store($reports);
 		echo("<meta http-equiv='refresh'>");
 	}
@@ -25,7 +24,7 @@
 			<a  href="/">Форум</a>
 		</li>
 		<li class="nav-item">
-			<a href="/news">Статьи</a>
+			<a href="/news">Новости сайта</a>
 		</li>
 		<li class="nav-item">
 			<a href="/reportbook">Книга жалоб и предложений</a>
@@ -69,6 +68,10 @@
 		<main>
 			<h2>Жалобная книга</h2>
 			<p>Тут вы можете написать нам жалобу или своё предложение, как можно развить проект.</p>
+			<?php
+			if (isset($_SESSION['logged_user']))
+			{
+			?>
 			<form method="POST" action="/reportbook">
 				<p>Введите вашу жаобу или предложение:</p>
 				<textarea name="report_text">
@@ -76,21 +79,31 @@
 				</textarea>
 				<br />
 				<input type="submit" name="report_send" value="Отправить жалобу">
-			<?php 
-			foreach ($report_query as $report_view)
+			</form>
+			<?php
+			} else 
 			{
-				$user = R::load('users', $report_view['user_id']);
 			?>
-				<ul class="report">
-					<li class="report-item">
-						<a href="/profile.php?id=<?=$user->id?>"><?=$user->login?></a>
-						<p><?=$report_view['report']?></p>	
-					</li>
-				</ul>
-			<?php 
+			<p>Извините, но жалобы могут оставлять только авторизированные пользователи! <a href="/login">Авторизируйтесь</a>, чтобы оставить жалобу.</p>
+			<?php
 			}
 			?>
-			</form>
+			<p>Здесь отображаются жалобы других пользователей:</p>
+			<?php
+				foreach ($report_query as $report_view)
+				{
+					$user = R::load('users', $report_view['user_id']);
+				?>
+					<ul class="report">
+						<li class="report-item">
+							<a href="/profile.php?id=<?=$user->id?>"><?=$user->login?></a>
+							<p><?=$report_view['report']?></p>	
+						</li>
+					</ul>
+				<?php 
+				}
+			?>
+			
 		</main>
 
 		<footer>

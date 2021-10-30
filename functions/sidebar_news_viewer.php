@@ -6,7 +6,7 @@ function sidebar_news ()
 	{
 	?>
 		<li class="active-list-item">
-			<a href="/articles"><?=$news['title']?></a>
+			<a href="/article?id=<?=$news['id']?>"><?=$news['title']?></a>
 		</li>
 	<?php
 	}

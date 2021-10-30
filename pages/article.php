@@ -1,8 +1,5 @@
 <?php
-	$theme = R::findOne('themes', ' id = ? ', [$_GET['id']]);
-	$creator = R::findOne('users', ' id = ? ', [$theme->creator_id]);
-	$answer = R::dispense('answers');
-	$answers_array = R::getAll('SELECT * FROM answers ORDER BY id DESC');
+	$article = R::findOne( 'news', ' id = ? ', [ $_GET['id'] ] )
 ?>
 
 <!DOCTYPE html>
@@ -54,57 +51,64 @@
 	</nav>
 		<div class="sidebar">
 			<h4>Новости нашего сайта</h4>
-			<ul>
-				<?
-				sidebar_news();
-				?>
-			</ul>
+			<?php
+			sidebar_news();
+			?>
 		</div>
 	<main>
 		
 		<div class="content">
-			<h2>Раздел темы <?=$theme->title?></h2>
-			<p><?=$theme->text?></p>
-			<a href="/profile?id=<?=$theme->creator_id?>"><?=$creator->login?></a>
-			<p>Ответы пользователей в теме:</p>
-			<hr>
+			<h2><?=$article->title?></h2>
+			<p><?=$article->text?></p>
+			<h3>Была ли полезна эта статься?</h3>
 			<?php
-			foreach ($answers_array as $answers)
+			if (isset($_SESSION['logged_user']))
 			{
-			$user = R::findOne('users', 'id = ?', [$answers['user_id']])
 			?>
-				<div>
-					<p><?=$answers['text']?></p>
-					<a href="profile?id=<?=$user->id?>"><?=$user->login?></a>
-				</div>
-				<hr>
+			<form method="POST" action="/article?id=<?=$article->id?>">
+					<p>Заголовок</p>
+					<input type="text" name="comment_title">
+					<p>Комментарий</p>
+					<textarea required name="comment_text"></textarea> <br />
+					<input required type="submit" name="comment_send">
+			</form>
 			<?php
-
+				if (isset($_POST['comment_send']))
+				{
+					$comments = R::dispense('comments');
+					$comments->module = 'article';
+					$comments->params = $_GET['id'];
+					$comments->title = $_POST['comment_title'];
+					$comments->text = $_POST['comment_text'];		
+					$comments->user = $_SESSION['logged_user'];
+					R::store($comments);
+					echo("<meta http-equiv='refresh' content='1'>");
+				}
+			} else
+			{
 			?>
+			<p><a href="/login">Авторизируйтесь</a> на сайте, чтобы поделиться с другими пользователями своим мнением насчёт неё!</p>
 			<?php
 			}
-				if(isset($_SESSION['logged_user']))
-				{
-				?>
-					<form method="POST" action="/theme?id=<?=$_GET['id']?>">
-						<p>Написать в теме:</p>
-						<textarea name="theme_answer"></textarea> <br />
-						<input type="submit" name="send_answer">
-					</form>
-				<?php
-				} else
-				{
 			?>
-					<p>Хотите отставить совой ответ в теме? <a href="/login">Авторизируйтесь</a> на сайте.</p>
+			<p>Здесь отображаются коментарии пользователей:</p>
 			<?php
-				}
-			if (isset($_POST['send_answer']))
+			
+			$comments_view = R::getAll("SELECT * FROM comments WHERE module = 'article'");
+				
+			foreach ($comments_view as $comments)
 			{
-				$answer->text = $_POST['theme_answer'];
-				$answer->user = $_SESSION['logged_user'];
-				$answer->theme = $_GET['id'];
-				R::store($answer);
-				echo("<meta http-equiv='refresh' content='1'>");
+				$user = R::findOne('users', ' id = ? ', [$comments['user_id']]);
+				if ($_GET['id'] == $comments['params'])
+				{
+
+				?>
+					<hr>
+					<strong><?=$comments['title']?></strong>
+					<p><?=$comments['text']?></p>
+					<a href="/profile?id=<?=$user->id?>"><?=$user->login?></a>
+				<?php
+				}
 			}
 			?>
 		</div>

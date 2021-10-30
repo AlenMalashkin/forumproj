@@ -25,7 +25,7 @@
 			<a  href="/">Форум</a>
 		</li>
 		<li class="nav-item">
-			<a href="/articles">Статьи</a>
+			<a href="/news">Новости сайта</a>
 		</li>
 		<li class="nav-item">
 			<a href="/reportbook">Книга жалоб и предложений</a>
@@ -66,7 +66,10 @@
 			</ul>
 		</div>
 	<main>
-		
+		<?php
+		if (isset($_SESSION['logged_user']))
+		{
+		?>
 		<div class="content">
 			<h2>Создайте тему для форума.</h2>
 			<form method="POST" action="/theme_create">
@@ -79,6 +82,14 @@
 				<input value="Создать тему" type="submit" name="theme_create">
 			</form>
 		</div>
+		<?php
+		} else
+		{
+		?>
+		<p>Для создания темы необходимо <a href="/login">авторизироваться</a> на сайте.</p>
+		<?php
+		}
+		?>
 	</main>
 	
 		<footer>

@@ -17,7 +17,7 @@
 			<a  href="/">Форум</a>
 		</li>
 		<li class="nav-item">
-			<a href="/articles">Статьи</a>
+			<a href="/news">Новости сайта</a>
 		</li>
 		<li class="nav-item">
 			<a href="/reportbook">Книга жалоб и предложений</a>

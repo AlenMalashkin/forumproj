@@ -17,7 +17,7 @@
 			<a  href="/">Форум</a>
 		</li>
 		<li class="nav-item">
-			<a href="/news.php">Новости сайта</a>
+			<a href="/news">Новости сайта</a>
 		</li>
 		<li class="nav-item">
 			<a href="/reportbook">Книга жалоб и предложений</a>
@@ -51,9 +51,12 @@
 	</nav>
 		<div class="sidebar">
 			<h4>Новости нашего сайта</h4>
+			<ul>
 			<?php
-			sidebar_news();
+				sidebar_news();
 			?>
+			</ul>
+			
 		</div>
 	<main>
 		
@@ -63,7 +66,8 @@
 			foreach ($news_view as $news)
 			{
 			?>
-				<a href="/news.php?id"><?=$news['title']?></a>
+				<hr>
+				<a class="link" href="/article?id=<?=$news['id']?>"><?=$news['title']?></a>
 				<p><?=$news['text']?></p>
 			<?php
 			}
