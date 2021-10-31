@@ -2,7 +2,7 @@
 	$pid = $_GET['id'];
 	$profile = R::findOne('users', 'id = ?', [$pid]);
 	$comment_form = R::dispense('comments');
-	$comments = R::getAll("SELECT * FROM comments WHERE module = 'profile'");
+	$comments = R::getAll("SELECT * FROM comments WHERE module = 'profile' ORDER BY id DESC");
 ?>
 
 <!DOCTYPE html>
@@ -17,7 +17,7 @@
 	<nav>
 	<ul class="navigation">
 		<li class="nav-item">
-			<a  href="/">Форум</a>
+			<a href="/">Форум</a>
 		</li>
 		<li class="nav-item">
 			<a href="/news">Новости сайта</a>
@@ -53,7 +53,7 @@
 	</ul>
 	</nav>
 		<div class="sidebar">
-			<h4>Статьи от пользователей нашего сайта</h4>
+			<h3>Статьи от пользователей нашего сайта</h3>
 			<ul>
 				<?php
 				sidebar_news();
@@ -78,9 +78,7 @@
 				?>
 						<form method="POST" action="/profile?id=<?=$_SESSION['logged_user']->id?>">
 						
-							<textarea name="status">
-								
-							</textarea>
+							<textarea placeholder="Расскажите о себе" maxlength="1000" name="status"></textarea>
 							<br />
 							<input type="submit" name="set_status" value="Поставить">
 						</form>
@@ -133,7 +131,7 @@
 					<hr>
 					<p>Здесь вы можете оставить коментарий для этого пользователя</p>
 					<form method="POST" action="/profile?id=<?=$profile->id?>">
-						<input type="text" name="comment_text"> <br />
+						<input placeholder="Введите ваш коментарий" maxlength="1000" type="text" name="comment_text"> <br />
 						<input type="submit" name="send_comment">
 					</form>
 				<?php
@@ -152,9 +150,10 @@
 						if ($comment['params'] == $_GET['id'])
 						{
 							$commentator = R::findOne('users', 'id = ?', [$comment['user_id']]);
-					?>
-						<li class="user-comment">
-							<a href="profile?id=<?=$commentator->id?>"><?=$commentator->login?></a>
+					?>	
+						<hr>	
+						<li class="comment">
+							<strong>Автор коментария: </strong><a class="link" href="profile?id=<?=$commentator->id?>"><?=$commentator->login?></a>
 							<p><?=$comment['text']?></p>
 						</li>
 					<?php

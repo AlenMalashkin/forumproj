@@ -1,5 +1,5 @@
 <?php
-	$themes = R::getAll( 'SELECT * FROM themes ORDER BY id DESC' );
+	$themes = R::getAll( 'SELECT * FROM themes ORDER BY id DESC LIMIT 5' );
 ?>
 
 <!DOCTYPE html>
@@ -77,12 +77,30 @@
 				foreach ($themes as $theme)
 				{
 					$user = R::load('users', $theme['creator_id']);
+					
+					$comment = R::findOne('answers', 'theme = ?', [$theme['id']]);
+					$commentator = R::load('users', $comment->user_id);
 				?>
 					<hr>
 					<li class="topic-list-item">
 						<a class="theme-link" href="/theme?id=<?=$theme['id']?>"><strong><?=$theme['title']?></strong></a>
-						<p><?=$theme['text']?></p>
-						<a href="/profile?id=<?=$user->id?>"><?=$user->login?></a>
+						<div class="answer">
+							<?php
+							if (!empty($comment))
+							{
+							?>
+							<div class="user-answer">Пользователь <a  href="/profile?id=<?=$commentator->id?>"><?=$commentator->login?></a> ответил:</div>
+							<div class="user-answer"><p class="topic-answer"><?=$comment->text?></p></div>
+							<?php
+							} else 
+							{
+							?>
+							<div><p>В этой теме пока что никто не оставлял своих коментариев...</p></div>
+							<?php
+							}
+							?>
+						</div>
+						<strong>Автор темы:</strong> <a href="/profile?id=<?=$user->id?>"><?=$user->login?></a>
 					</li>
 				<?php
 				}

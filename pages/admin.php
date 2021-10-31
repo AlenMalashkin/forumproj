@@ -59,7 +59,7 @@ if (isset($_POST['create_news']))
 	</ul>
 	</nav>
 		<div class="sidebar">
-			<h4>Новости нашего сайта</h4>
+			<h3>Новости нашего сайта</h3>
 			<ul>
 				<?
 				sidebar_news();

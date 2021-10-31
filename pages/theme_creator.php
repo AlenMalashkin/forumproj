@@ -58,7 +58,7 @@
 	</ul>
 	</nav>
 		<div class="sidebar">
-			<h4>Новости нашего сайта</h4>
+			<h3>Новости нашего сайта</h3>
 			<ul>
 				<?php
 				sidebar_news();
@@ -74,11 +74,9 @@
 			<h2>Создайте тему для форума.</h2>
 			<form method="POST" action="/theme_create">
 				<p>Введите название темы</p>
-				<input type="text" name="theme_title">
+				<input placeholder="Название темы" maxlength="40" type="text" name="theme_title">
 				<p>Введите основной текст темы</p>
-				<textarea name="theme_text">
-					
-				</textarea> <br />
+				<textarea placeholder="Текст темы" name="theme_text"></textarea> <br />				
 				<input value="Создать тему" type="submit" name="theme_create">
 			</form>
 		</div>

@@ -57,7 +57,7 @@
 	</ul>
 	</nav>
 		<div class="sidebar">
-			<h4>Новости нашего сайта</h4>
+			<h3>Новости нашего сайта</h3>
 			<ul>
 				<?php
 				sidebar_news();
@@ -74,9 +74,7 @@
 			?>
 			<form method="POST" action="/reportbook">
 				<p>Введите вашу жаобу или предложение:</p>
-				<textarea name="report_text">
-					
-				</textarea>
+				<textarea placeholder="Текст жалобы" name="report_text"></textarea>
 				<br />
 				<input type="submit" name="report_send" value="Отправить жалобу">
 			</form>
@@ -96,8 +94,8 @@
 				?>
 					<ul class="report">
 						<li class="report-item">
-							<a href="/profile.php?id=<?=$user->id?>"><?=$user->login?></a>
-							<p><?=$report_view['report']?></p>	
+							<strong>Автор жалобы:</strong> <a href="/profile.php?id=<?=$user->id?>"><?=$user->login?></a>
+							<p><strong>Текст жалобы:</strong> <?=$report_view['report']?></p>	
 						</li>
 					</ul>
 				<?php 

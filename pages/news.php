@@ -50,7 +50,7 @@
 	</ul>
 	</nav>
 		<div class="sidebar">
-			<h4>Новости нашего сайта</h4>
+			<h3>Новости нашего сайта</h3>
 			<ul>
 			<?php
 				sidebar_news();
@@ -68,7 +68,7 @@
 			?>
 				<hr>
 				<a class="link" href="/article?id=<?=$news['id']?>"><?=$news['title']?></a>
-				<p><?=$news['text']?></p>
+				<p><strong>Текст новости:</strong> <?=$news['text']?></p>
 			<?php
 			}
 			?>

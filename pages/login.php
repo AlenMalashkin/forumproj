@@ -31,7 +31,7 @@
 	</ul>
 	</nav>
 		<div class="sidebar">
-			<h4>Статьи от пользователей нашего сайта</h4>
+			<h3>Статьи от пользователей нашего сайта</h3>
 			<ul>
 				<?php
 				sidebar_news();
@@ -41,11 +41,11 @@
 	<main>
 		
 		<div class="content">
-			<form method="POST" action="main">
+			<form method="POST" action="/login">
 				<h2>Авторизация</h2>
-				<input type="text" name="login"> <br />
-				<input type="password" name="password"> <br />
-				<input type="submit" name="login_user" value="Войти"> <br />
+				<input placeholder="Логин" maxlength="15" pattern="[A-Za-z]\d[0-9]{5, 15}" type="text" name="login"> <br />
+				<input placeholder="Пароль" maxlength="20" pattern="[A-Za-z]\d[0-9]{5, 20}" type="password" name="password"> <br />
+				<input type="submit"  name="login_user" value="Войти"> <br />
 			</form>
 		</div>
 	</main>

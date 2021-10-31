@@ -50,10 +50,13 @@
 	</ul>
 	</nav>
 		<div class="sidebar">
-			<h4>Новости нашего сайта</h4>
+			<h3>Новости нашего сайта</h3>
+			<ul>
 			<?php
-			sidebar_news();
+				sidebar_news();
 			?>
+			</ul>
+			
 		</div>
 	<main>
 		
@@ -66,11 +69,14 @@
 			{
 			?>
 			<form method="POST" action="/article?id=<?=$article->id?>">
-					<p>Заголовок</p>
-					<input type="text" name="comment_title">
-					<p>Комментарий</p>
-					<textarea required name="comment_text"></textarea> <br />
-					<input required type="submit" name="comment_send">
+					
+					<input class="custom-radio" name="q_answer" type="radio" required value="Да">
+					<label for="yes">Да</label> <br />
+					<input class="custom-radio" name="q_answer" type="radio" required value="Нет">
+					<label for="no">Нет</label>
+					<p>Пожалуйста, обоснуйте ответ, это важно для нас:</p>
+					<textarea placeholder="Текст" cols="30" rows="5" required name="comment_text"></textarea> <br />
+					<input type="submit" name="comment_send">
 			</form>
 			<?php
 				if (isset($_POST['comment_send']))
@@ -78,7 +84,7 @@
 					$comments = R::dispense('comments');
 					$comments->module = 'article';
 					$comments->params = $_GET['id'];
-					$comments->title = $_POST['comment_title'];
+					$comments->answer = $_POST['q_answer'];
 					$comments->text = $_POST['comment_text'];		
 					$comments->user = $_SESSION['logged_user'];
 					R::store($comments);
@@ -90,10 +96,17 @@
 			<p><a href="/login">Авторизируйтесь</a> на сайте, чтобы поделиться с другими пользователями своим мнением насчёт неё!</p>
 			<?php
 			}
+			if (empty($comments_view))
+			{
+			?>
+			<p>Здесь пока нет ответов...</p>
+			<?php
+			} else
+			{
 			?>
 			<p>Здесь отображаются коментарии пользователей:</p>
 			<?php
-			
+			}
 			$comments_view = R::getAll("SELECT * FROM comments WHERE module = 'article'");
 				
 			foreach ($comments_view as $comments)
@@ -104,9 +117,12 @@
 
 				?>
 					<hr>
-					<strong><?=$comments['title']?></strong>
-					<p><?=$comments['text']?></p>
-					<a href="/profile?id=<?=$user->id?>"><?=$user->login?></a>
+					<div class="comments">
+						<strong>Ответ на вопрос: <?=$comments['answer']?></strong>
+						<p>Кометарий: <?=$comments['text']?></p>
+						<strong>Автор коментария:</strong> <a href="/profile?id=<?=$user->id?>"><?=$user->login?></a>
+					</div>
+					
 				<?php
 				}
 			}

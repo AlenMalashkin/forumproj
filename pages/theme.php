@@ -2,7 +2,7 @@
 	$theme = R::findOne('themes', ' id = ? ', [$_GET['id']]);
 	$creator = R::findOne('users', ' id = ? ', [$theme->creator_id]);
 	$answer = R::dispense('answers');
-	$answers_array = R::getAll('SELECT * FROM answers ORDER BY id DESC');
+	$answers_array = R::getAll('SELECT * FROM answers WHERE theme = :themeid ORDER BY id DESC', [':themeid' => $_GET['id']]);
 ?>
 
 <!DOCTYPE html>
@@ -53,7 +53,7 @@
 	</ul>
 	</nav>
 		<div class="sidebar">
-			<h4>Новости нашего сайта</h4>
+			<h3>Новости нашего сайта</h3>
 			<ul>
 				<?
 				sidebar_news();
@@ -64,8 +64,8 @@
 		
 		<div class="content">
 			<h2>Раздел темы <?=$theme->title?></h2>
-			<p><?=$theme->text?></p>
-			<a href="/profile?id=<?=$theme->creator_id?>"><?=$creator->login?></a>
+			Текст темы:<p><?=$theme->text?></p>
+			Автор темы:<a href="/profile?id=<?=$theme->creator_id?>"><?=$creator->login?></a>
 			<p>Ответы пользователей в теме:</p>
 			<hr>
 			<?php
@@ -73,9 +73,9 @@
 			{
 			$user = R::findOne('users', 'id = ?', [$answers['user_id']])
 			?>
-				<div>
-					<p><?=$answers['text']?></p>
-					<a href="profile?id=<?=$user->id?>"><?=$user->login?></a>
+				<div class="comments">
+					Ответ:<p><?=$answers['text']?></p>
+					Автор коментария:<a href="profile?id=<?=$user->id?>"><?=$user->login?></a>
 				</div>
 				<hr>
 			<?php
