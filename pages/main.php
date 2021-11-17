@@ -12,42 +12,9 @@
 <body>
 	<h1>Тематический сайт-форум</h1>
 	<nav>
-	<ul class="navigation">
-		<li class="nav-item">
-			<a href="/">Форум</a>
-		</li>
-		<li class="nav-item">
-			<a href="/news">Новости сайта</a>
-		</li>
-		<li class="nav-item">
-			<a href="/reportbook">Книга жалоб и предложений</a>
-		</li>
-		
-		<?php if (isset($_SESSION['logged_user']))
-		{?>
-			<li class="nav-item" style="float:right">
-				<a class="active" href="/register">Реистрация</a>
-			</li>
-			<li class="nav-item" class="active" style="float:right">
-				<a class="active" href="/login">Войти</a>
-			</li>
-			<li class="nav-item" class="active" style="float:right">
-				<a class="active" href="/profile?id=<?=$user->id?>">Профиль</a>
-			</li>
-
-			<li class="nav-item" class="active" style="float:right">
-				<a class="active" href="/logout">Выйти</a>
-			</li>
-		<?php } else {?>
-			<li class="nav-item" style="float:right">
-				<a class="active" href="/register">Реистрация</a>
-			</li>
-			<li class="nav-item" class="active" style="float:right">
-				<a class="active" href="/login">Войти</a>
-			</li>
-		<?php } ?>
-
-	</ul>
+	<?php
+	nav();
+	?>
 	</nav>
 		<div class="sidebar">
 			<h3>Новости нашего сайта</h3>
@@ -64,10 +31,12 @@
 			<div>
 				<a class="link" href="/theme_create">Создать тему</a>
 				<?php
-				if ($_SESSION['logged_user']->id == 2)
+				if ($_SESSION['logged_user']->admin == 1)
 				{
 				?>
-				<a class="link" href="/admin/add_state">Администрация сайта</a>
+				<a class="link" href="/admin/add_state">Добавить новость</a>
+				<a class="link" href="admin/add_offer">Добавить вакансию</a>
+				<a class="link" href="admin/offer_answers">Посмотреть ответы на вакансии</a>
 				<?php
 				}
 				?>
@@ -111,18 +80,9 @@
 	</main>
 	
 		<footer>
-			<ul class="footer-item-list">
-				<li class="footer-item">
-					<a href="#">Контакты</a>
-				</li>
-				<li class="footer-item">
-					<a href="#">О нас</a>
-				</li>
-				<li class="footer-item">
-					<a href="#">Вакансии</a>
-				</li>
-			</ul>
-			<p>&copy; Все права защищены 2021</p>
+			<?php
+			footer();
+			?>
 		</footer>
 			
 
