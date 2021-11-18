@@ -1,22 +1,23 @@
 <?php
-	header("Expires: Tue, 01 Jan 2000 00:00:00 GMT");
-	header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-	header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
-	header("Cache-Control: post-check=0, pre-check=0", false);
-	header("Pragma: no-cache");
 	require "functions/libs/db.php";
+	include "functions/nav.php";
+	include "functions/footer.php";
 	include "functions/reg_function.php";
 	include "functions/login_function.php";
 	include "functions/sidebar_news_viewer.php";
-	include "functions/main_content.php";
 	$user = R::findOne('users', 'id = ?', [$_SESSION['logged_user']->id]);
 	$uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 	$segments = explode('/', trim($uri, '/'));
 
 	if($segments[0] === 'admin')
 	{
-	    if($segments[1] === 'add_state')
-	        $file = 'admin.php';
+	    if($segments[1] === 'add_state') {
+	        $file = 'add_state.php';
+	    } else if ($segments[1] === 'add_offer') {
+	    	$file = 'add_offer.php';
+	    } else if ($segments[1] === 'offer_answers') {
+	    	$file = 'offer_answers.php';
+	    }
 	    
 	}
 	else
@@ -58,12 +59,23 @@
 	    } else if ($uri === '/article')
 	    {
 	    	$file = 'article.php';
-	    }
+	    } else if ($uri === '/contact')
+	    {
+	    	$file = 'contact.php';
+	    } else if ($uri === '/about')
+	    {
+	    	$file = 'about.php';
+	    } else if($segments[0] === 'offers')
+		{
+			$file = 'offers.php';
+	    	if($segments[1] === 'answer')
+	      	  $file = 'offer_answer.php';
+		}
 	    else
 	    {
 	        exit('Ошибка 404, файл не найден.');
 	    }
 	}
 
-	require 'pages/' . $file;
+	require  dirname(__FILE__) . DIRECTORY_SEPARATOR . 'pages/' . $file;
 ?>
